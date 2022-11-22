@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
+import parse from 'html-react-parser'
 import CodeEditorWindow from "../../Editor";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -33,7 +34,8 @@ const TaskDetail = () => {
     const formData = {
 			"status": true,
 			"solution_code": value,
-			"task": detailTask.id
+			"task": detailTask.id,
+			"file_extension": detailTask.task_file_extension
     };
     const options = {
       method: "POST",
@@ -59,7 +61,9 @@ const TaskDetail = () => {
         console.log("catch block...", error);
       });
   };
-
+	console.log(value)
+	console.log('-----solution-----')
+	console.log(solution)
 	return (
 		<div>
 		{!isLoading ? 
@@ -67,19 +71,23 @@ const TaskDetail = () => {
 					<Col xs={4} md={4} style={{borderColor : 'black', borderStyle : 'solid'}}>
 						<h3>{detailTask.task_name}</h3>
 						<Row>
-							<h4>{detailTask.task_description}</h4>
+							{parse(detailTask.task_description)}
+						</Row>
+						<Row>
+							<h3>Instruction</h3>
+							{parse(detailTask.instruction)}
 						</Row>
 					</Col>
 					<Col xs={4} md={4} style={{borderColor : 'black', borderStyle : 'solid'}}>
 						<Row style={{ maxWidth: '100%', overflowX: 'hidden'}}>
 							<CodeEditorWindow 
-								language={`python`}
+								language={`java`}
 								code={value}
 								handleChangeEditor={handleEditorChange}
 							/>
 						</Row>
 						<Row style= {{marginTop: '20px'}}>
-							<Button variant="secondary" onClick={handleCompile}>Run The Code</Button>
+							<Button variant="secondary" onClick={handleCompile}>Run</Button>
 						</Row>
 					</Col>
 					<Col xs={4} md={4} style={{borderColor : 'black', borderStyle : 'solid'}}>
