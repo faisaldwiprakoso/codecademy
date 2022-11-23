@@ -13,6 +13,7 @@ const baseURL = "http://127.0.0.1:8000/course/detail/";
 const CourseDetail = () => {
 	const [courseData, setCourseData] = useState({});
 	const [isLoading, setIsLoading] = useState(true);
+	const [isError, setIsError] = useState(false);
 	const id = window.location.pathname.split("/").pop() + "/";
 
 	useEffect(() => {
@@ -20,52 +21,56 @@ const CourseDetail = () => {
 		.then(response => setCourseData(response.data)).then(() => setIsLoading(false))
 		.catch((error) => {
 			console.log(error);
+			setIsError(true);
+			setIsLoading(false);
 		});
 	}, []);
 
-	console.log(courseData)	
 	return (
 		<div>
-			<h1>{courseData.course_name}</h1>
-			{!isLoading ? 
-				<Row key={id} style= {{marginTop :'20px'}}>
-					<Col xs={12} md={12}>
-						<Tabs
-						defaultActiveKey="overview"
-						id="uncontrolled-tab-example"
-						className="mb-3"
-						>
-							<Tab eventKey="overview" title="Overview">
-								<Card>
-									<Card.Body>
-										<Card.Title>{parse(courseData.course_description)}</Card.Title>
-									</Card.Body>
-								</Card>
-							</Tab>
-							<Tab eventKey="syllabus" title="Syllabus">
-								{courseData.courses_task.map((data,id)=>{
-									return (
-										<Row key={id}>
-											<Card style={{marginTop: '20px'}}>
-												<Card.Body>
-													<Card.Title>{data.task_name}</Card.Title>
-													<Row>
-														<Col xs={12} md={12}>
-															{parse(data.task_description)}
-														</Col>
-													</Row>
-													<Card.Link href={`/task-detail/${data.id}`}>Start Learning</Card.Link>
-												</Card.Body>
-											</Card>
-										</Row>
-									)
-								})}
-							</Tab>
-						</Tabs>
-					</Col>
-				</Row>
-				: 
-				<Spinner animation="grow" />
+			{isError ? 
+				<h1>Course is not available</h1>
+			: 
+			!isLoading ? 
+			<Row key={id} style= {{marginTop :'20px'}}>
+				<h1>{courseData.course_name}</h1>
+				<Col xs={12} md={12}>
+					<Tabs
+					defaultActiveKey="overview"
+					id="uncontrolled-tab-example"
+					className="mb-3"
+					>
+						<Tab eventKey="overview" title="Overview">
+							<Card>
+								<Card.Body>
+									<Card.Title>{parse(courseData.course_description)}</Card.Title>
+								</Card.Body>
+							</Card>
+						</Tab>
+						<Tab eventKey="syllabus" title="Syllabus">
+							{courseData.courses_task.map((data,id)=>{
+								return (
+									<Row key={id}>
+										<Card style={{marginTop: '20px'}}>
+											<Card.Body>
+												<Card.Title>{data.task_name}</Card.Title>
+												<Row>
+													<Col xs={12} md={12}>
+														{parse(data.task_description)}
+													</Col>
+												</Row>
+												<Card.Link href={`/task-detail/${data.id}`}>Start Learning</Card.Link>
+											</Card.Body>
+										</Card>
+									</Row>
+								)
+							})}
+						</Tab>
+					</Tabs>
+				</Col>
+			</Row>
+			: 
+			<Spinner animation="grow" />			
 			}
 		</div>
 	)

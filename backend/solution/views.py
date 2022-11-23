@@ -15,7 +15,9 @@ class SolutionCreateView(generics.CreateAPIView):
     def post(self, request):
         serializer = SolutionSerializerUpdate(data=request.data)
         if serializer.is_valid():
-            solution_result = serializer.set_result(request.data.get('solution_code'))
+            solution_code = request.data.get('solution_code')
+            file_extension = request.data.get('file_extension')
+            solution_result = serializer.set_result(solution_code, file_extension)
             serializer.save(result=solution_result)
             message = serializer.data
             return Response(message, status=status.HTTP_201_CREATED)
