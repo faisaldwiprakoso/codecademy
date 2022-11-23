@@ -7,7 +7,7 @@ const CodeEditorWindow = ({ language, code,handleChangeEditor }) => {
     <div>
       <MonacoEditor
         width={`100%`}
-        height="600"
+        height="800"
         language={language || "python"}
         value={code}
         theme= "vs-dark"

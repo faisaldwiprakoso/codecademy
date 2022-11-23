@@ -8,13 +8,15 @@ import CourseList from './components/Pages/CourseList';
 import CourseDetail from './components/Pages/CourseDetail';
 import TaskDetail from './components/Pages/TaskDetail';
 import { Route, Routes } from "react-router-dom";
+import Col from "react-bootstrap/Col";
+import Row from 'react-bootstrap/Row';
 
 function App(props) {
   return (
     <div className="App">
       <header className="App-header">
-        <Container>
-          <NavbarComponent/>
+        <NavbarComponent/>
+        <Container fluid>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -22,7 +24,6 @@ function App(props) {
             <Route path="/course-detail/:id" element={<CourseDetail />} />
             <Route path="/task-detail/:id" element={<TaskDetail />} />
           </Routes>
-          <Footer/>
         </Container>
       </header>
     </div>

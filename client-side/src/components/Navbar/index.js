@@ -5,14 +5,13 @@ import Navbar from 'react-bootstrap/Navbar';
 
 const NavbarComponent = () => {
 	return (
-		<Navbar bg="light" expand="lg" sticky="top">
+		<Navbar bg="dark" expand="lg" sticky="top">
 			<Container>
-				<Navbar.Brand href="/">Simple Codecademy</Navbar.Brand>
-				<Navbar.Toggle aria-controls="basic-navbar-nav" />
+				<Navbar.Brand href="/" style={{color: 'white', left: '10px', position: 'absolute'}}>Simple Codecademy</Navbar.Brand>
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="me-auto">
-						<Nav.Link href="/about">About</Nav.Link>
-						<Nav.Link href="/course-list">Course List</Nav.Link>
+						<Nav.Link href="/about" style={{color: 'white', left: '50px', position: 'relative'}}>About</Nav.Link>
+						<Nav.Link href="/course-list" style={{color: 'white', left: '50px', position: 'relative'}}>Course List</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>
 			</Container>
